@@ -15,7 +15,7 @@
 
 // Package storage provides an object store utility that supports local file
 // system and Google Cloud Storage objects.
-package storage
+package objectstore
 
 import (
 	"compress/gzip"
