@@ -21,6 +21,8 @@ import (
 	"fmt"
 	"net/url"
 	"os"
+	"path"
+	"strings"
 
 	"cloud.google.com/go/storage"
 )
@@ -35,6 +37,28 @@ type Object struct {
 
 	u *url.URL
 	o *storage.ObjectHandle
+}
+
+func (o *Object) guessContentAttrs() {
+	if o == nil || o.u == nil {
+		return
+	}
+
+	ext := path.Ext(o.u.Path)
+	switch {
+	case strings.Contains(ext, ".csv"):
+		o.ContentType = "text/csv"
+	case strings.Contains(ext, ".ndjson"):
+		o.ContentType = "application/x-ndjson"
+	case strings.Contains(ext, ".json"):
+		o.ContentType = "application/json"
+	case strings.Contains(ext, ".txt"):
+		o.ContentType = "text/plain"
+	}
+
+	if strings.Contains(ext, ".gz") || strings.Contains(ext, ".gzip") {
+		o.ContentEncoding = "gzip"
+	}
 }
 
 // URL returns the read-only url.URL of an Object.

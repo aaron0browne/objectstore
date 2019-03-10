@@ -22,7 +22,6 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
-	"path"
 	"strings"
 
 	"cloud.google.com/go/storage"
@@ -68,22 +67,7 @@ func (s *Store) NewObject(ctx context.Context, uri string) (*Object, error) {
 	o := &Object{
 		u: u,
 	}
-
-	ext := path.Ext(o.u.Path)
-	switch {
-	case strings.Contains(ext, ".csv"):
-		o.ContentType = "text/csv"
-	case strings.Contains(ext, ".ndjson"):
-		o.ContentType = "application/x-ndjson"
-	case strings.Contains(ext, ".json"):
-		o.ContentType = "application/json"
-	case strings.Contains(ext, ".txt"):
-		o.ContentType = "text/plain"
-	}
-
-	if strings.Contains(ext, ".gz") || strings.Contains(ext, ".gzip") {
-		o.ContentEncoding = "gzip"
-	}
+	o.guessContentAttrs()
 
 	switch u.Scheme {
 	case "gs":
