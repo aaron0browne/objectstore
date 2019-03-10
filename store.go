@@ -13,7 +13,7 @@
 // A copy of the license can be found in the LICENSE file and at
 //         https://www.gnu.org/licenses/agpl.html
 
-// Package storage provides an object store utility that supports local file
+// Package objectstore provides an object store utility that supports local file
 // system and Google Cloud Storage objects.
 package objectstore
 
