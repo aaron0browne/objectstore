@@ -6,3 +6,15 @@ go:
 
 env:
   - GO111MODULE=on
+  - CC_TEST_REPORTER_ID=c361b196dcb33eceb1a46d893e1e094c754110b0335a26b45a8b20ac33435133
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - go test -coverprofile=c.out ./...
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
