@@ -44,7 +44,17 @@ func (o *Object) guessContentAttrs() {
 		return
 	}
 
-	ext := path.Ext(o.u.Path)
+	// Get the uri path extension (from the first '.' on).
+	// path.Ext gets from the last '.' on.
+	base := path.Base(o.u.Path)
+	ext := ""
+	for i, x := range base {
+		if x == '.' {
+			ext = base[i:]
+			break
+		}
+	}
+
 	switch {
 	case strings.Contains(ext, ".csv"):
 		o.ContentType = "text/csv"
