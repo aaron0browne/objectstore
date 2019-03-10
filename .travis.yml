@@ -5,8 +5,16 @@ go:
   - 1.x
 
 env:
-  - GO111MODULE=on
-  - CC_TEST_REPORTER_ID=c361b196dcb33eceb1a46d893e1e094c754110b0335a26b45a8b20ac33435133
+  global:
+    - GO111MODULE=on
+    - CC_TEST_REPORTER_ID=c361b196dcb33eceb1a46d893e1e094c754110b0335a26b45a8b20ac33435133
+
+cache:
+  directories:
+    - vendor
+
+install:
+  - go mod vendor
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
